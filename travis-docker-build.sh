@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 OS="centos:6 centos:7 ubuntu:14.04 ubuntu:16.04"
 
 docker_build() {
@@ -10,11 +10,12 @@ docker_build() {
 	docker cp /home/travis/gopath ${NAME}:/root/go
 	docker exec ${NAME} '/bin/bash' '/root/pack.sh' "${2}" || return 1
 	docker cp ${NAME}:/root/pkg ./ || return 1
+	docker stop ${NAME}
 	docker rm ${NAME}
 }
 
 if [[ "${BUILD_PACKAGES}" == "true" ]]; then
-        if [ "$TRAVIS_BRANCH" == "master" ] || [ "${FORCE_BUILD}" == "true" ]; then
+        if [[ ! -z "${PACKAGECLOUD_TOKEN}" ]]; then
 		for i in ${OS}; do
 			docker_build ${i} ${1} &
 		done
