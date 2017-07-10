@@ -1,5 +1,5 @@
 #!/bin/bash
-OS="centos:6 centos:7 ubuntu:14.04 ubuntu:16.04"
+OS="centos:6 centos:7 ubuntu:14.04 ubuntu:16.04 debian:jessie debian:stretch debian:buster"
 
 docker_build() {
 	NAME="$(sed 's/://g;s/\.//g' <<< ${1})"
