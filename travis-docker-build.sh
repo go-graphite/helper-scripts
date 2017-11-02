@@ -1,5 +1,8 @@
 #!/bin/bash
 OS="centos:6 centos:7 ubuntu:14.04 ubuntu:16.04 debian:jessie debian:stretch debian:buster"
+if [[ "${DRY_RUN}" == "true" ]]; then
+	OS="ubuntu:16.04"
+fi
 
 docker_build() {
 	NAME="$(sed 's/://g;s/\.//g' <<< ${1})"
@@ -30,7 +33,11 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 	                        pushd ${v}
 				ls
 	                        for r in $(ls); do
-	                                package_cloud push go-graphite/${r}/${d}/${v} ./${r}/*
+					if [[ "${DRY_RUN}" == "true" ]]; then
+						echo "dry_run enabled, won't push anything"
+					else
+	                                	package_cloud push go-graphite/${r}/${d}/${v} ./${r}/*
+					fi
 	                        done
 	                        popd
 	                done
