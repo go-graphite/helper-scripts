@@ -8,7 +8,7 @@ docker_build() {
 	docker create --name ${NAME} civilus/gographite-build-${1}
 	docker start ${NAME}
 	docker cp /home/travis/gopath ${NAME}:/root/go
-	docker exec ${NAME} '/bin/bash' '/root/pack.sh' "${2}" || return 1
+	docker exec ${NAME} '/bin/bash' '-x' '/root/pack.sh' "${2}" || return 1
 	docker cp ${NAME}:/root/pkg ./ || return 1
 	docker stop ${NAME}
 	docker rm ${NAME}
