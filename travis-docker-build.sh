@@ -33,7 +33,9 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 	                        pushd ${v}
 				ls
 	                        for r in $(ls); do
-					if [[ ! -d "${r}" ]]; then
+					ls ./${r}/* | grep -q "\(deb\|rpm\)"
+					dont_have_pkgs=$?
+					if [[ ! -d "${r}" ]] || [[ ${dont_have_pkgs} -ne 0 ]]; then
 						continue
 					fi
 					if [[ "${DRY_RUN}" == "true" ]]; then
