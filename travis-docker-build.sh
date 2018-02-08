@@ -28,11 +28,14 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 		ls
 	        for d in $(ls); do
 	                pushd ${d}
+			echo "d=${d}"
 			ls
 	                for v in $(ls); do
+				echo "  v=${v}"
 	                        pushd ${v}
 				ls
 	                        for r in $(ls); do
+					echo "  r=${r}"
 					ls ./${r}/* | grep -q "\(deb\|rpm\)"
 					dont_have_pkgs=$?
 					if [[ ! -d "${r}" ]] || [[ ${dont_have_pkgs} -ne 0 ]]; then
@@ -44,10 +47,13 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 	                                	package_cloud push go-graphite/${r}/${d}/${v} ./${r}/*
 					fi
 	                        done
+				echo "  popd from v=${v}"
 	                        popd
 	                done
+			echo "popd from d=${d}"
 	                popd
 	        done
+		echo "  popd from pkg"
 	        popd
 	fi
 fi
