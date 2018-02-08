@@ -33,6 +33,9 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 	                        pushd ${v}
 				ls
 	                        for r in $(ls); do
+					if [[ ! -d "${r}" ]]; then
+						continue
+					fi
 					if [[ "${DRY_RUN}" == "true" ]]; then
 						echo "dry_run enabled, won't push anything"
 					else
