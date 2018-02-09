@@ -12,7 +12,8 @@ docker_build() {
 	docker start ${NAME}
 	docker cp /home/travis/gopath ${NAME}:/root/go
 	docker exec ${NAME} '/bin/bash' '-x' '/root/pack.sh' "${2}" || return 1
-	docker cp ${NAME}:/root/pkg ./ || return 1
+	mkdir -p _pkg
+	docker cp ${NAME}:/root/pkg ./_pkg/ || return 1
 	docker stop ${NAME}
 	docker rm ${NAME}
 }
@@ -24,7 +25,7 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 		done
                 gem install package_cloud
                 wait
-	        pushd pkg
+	        pushd _pkg/pkg
 		ls
 	        for d in el debian ubuntu; do
 	                pushd ${d}
@@ -53,7 +54,7 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 			echo "popd from d=${d}"
 	                popd
 	        done
-		echo "  popd from pkg"
+		echo "  popd from _pkg/pkg"
 	        popd
 	fi
 fi
