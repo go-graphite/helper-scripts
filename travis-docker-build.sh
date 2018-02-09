@@ -26,7 +26,7 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
                 wait
 	        pushd pkg
 		ls
-	        for d in $(ls); do
+	        for d in el debian ubuntu; do
 	                pushd ${d}
 			echo "d=${d}"
 			ls
