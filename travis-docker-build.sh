@@ -18,22 +18,28 @@ docker_build() {
 	docker rm ${NAME}
 }
 
+die() {
+	echo ${1}
+	exit 1
+}
+
 if [[ "${BUILD_PACKAGES}" == "true" ]]; then
         if [[ ! -z "${PACKAGECLOUD_TOKEN}" ]]; then
+		mkdir -p _pkg/
 		for i in ${OS}; do
 			docker_build ${i} ${1} &
 		done
                 gem install package_cloud
                 wait
-	        pushd _pkg/pkg
+	        pushd _pkg/pkg || die "Failed to 'pushd _pkg/pkg'"
 		ls
 	        for d in el debian ubuntu; do
-	                pushd ${d}
+	                pushd ${d} || die "Failed to pushd to ${d}"
 			echo "d=${d}"
 			ls
 	                for v in $(ls); do
 				echo "  v=${v}"
-	                        pushd ${v}
+	                        pushd ${v} || die "Failed to pushd to ${v}"
 				ls
 	                        for r in $(ls); do
 					echo "  r=${r}"
@@ -45,6 +51,7 @@ if [[ "${BUILD_PACKAGES}" == "true" ]]; then
 					if [[ "${DRY_RUN}" == "true" ]]; then
 						echo "dry_run enabled, won't push anything"
 					else
+						echo "Will push to 'go-graphite/${r}/${d}/${v}'"
 	                                	package_cloud push go-graphite/${r}/${d}/${v} ./${r}/*
 					fi
 	                        done
