@@ -1,5 +1,5 @@
 #!/bin/bash
-// centos:6 
+# centos:6 
 OS="centos:7 ubuntu:14.04 ubuntu:16.04 debian:jessie debian:stretch debian:buster"
 if [[ "${DRY_RUN}" == "true" ]]; then
 	OS="ubuntu:16.04"
