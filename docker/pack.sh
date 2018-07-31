@@ -38,7 +38,7 @@ git reset --hard
 rm -f *.rpm
 rm -f *.deb
 set -e
-/bin/bash +x ./contrib/fpm/create_package_${PKG}.sh
+/bin/bash +x ./contrib/${1}/fpm/create_package_${PKG}.sh
 set +e
 
 for r in ${REPOS}; do
