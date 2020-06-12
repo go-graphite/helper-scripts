@@ -14,6 +14,7 @@ fi
 
 docker_build() {
     NAME="$(sed 's/://g;s/\.//g' <<< ${1})"
+    echo "Building for ${NAME}"
     $DOCKER pull civilus/gographite-build-${i}
 
     $DOCKER create --name ${NAME} civilus/gographite-build-${1}
@@ -43,7 +44,7 @@ fi
 
 mkdir -p _pkg/
 for i in ${OS}; do
-    docker_build ${i} ${1} &
+    docker_build ${i} ${1}
 done
 
 gem install package_cloud
