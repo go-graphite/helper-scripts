@@ -1,7 +1,5 @@
 #!/bin/bash
-# centos:6 
-OS="centos:6 centos:7 centos:8 ubuntu:16.04 ubuntu:18.04 debian:stretch debian:buster"
-#OS="centos:8" # ubuntu:16.04 ubuntu:18.04 debian:stretch debian:buster"
+OS="centos:6 centos:7 centos:8 ubuntu:16.04 ubuntu:18.04 ubuntu:20.04 debian:stretch debian:buster"
 if [[ "${DRY_RUN}" == "true" ]]; then
     OS="ubuntu:18.04"
 fi
@@ -19,7 +17,11 @@ docker_build() {
 
     $DOCKER create --name ${NAME} civilus/gographite-build-${1}
     $DOCKER start ${NAME}
-    $DOCKER cp /home/travis/gopath ${NAME}:/root/go
+    if [[ ${LOCAL} != "true" ]]; then
+        $DOCKER cp /home/travis/gopath/src ${NAME}:/root/go/src
+    else
+        $DOCKER cp /root/go/src ${NAME}:/root/go/src
+    fi
     $DOCKER exec ${NAME} '/bin/bash' '-x' '/root/pack.sh' "${2}" || return 1
     mkdir -p _pkg
     $DOCKER cp ${NAME}:/root/pkg ./_pkg/ || return 1
@@ -42,9 +44,12 @@ if [[ -z "${PACKAGECLOUD_TOKEN}" ]]; then
     exit 0
 fi
 
+echo "Cleaning up old docker containers (if any)"
+for i in $(docker ps -a | awk '{print $1}' | grep -v CONT); do docker rm -f ${i}; done
+
 mkdir -p _pkg/
 for i in ${OS}; do
-    docker_build ${i} ${1}
+    docker_build ${i} ${1} &
 done
 
 gem install package_cloud
@@ -89,3 +94,6 @@ done
 
 echo "  popd from _pkg/pkg"
 popd
+
+echo "Cleaning up docker containers that we've used"
+for i in $(docker ps -a | awk '{print $1}' | grep -v CONT); do docker rm -f ${i}; done
