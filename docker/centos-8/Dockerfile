@@ -1,16 +1,16 @@
-FROM centos:7
+FROM centos:8
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
-USER root
 
 # Make sure the package repository is up to date.
 ARG CACHE_DATE=20200708
 RUN yum upgrade -y
-RUN yum install -y git openssh cairo-devel mercurial wget redhat-lsb-core openssh-server which
-
+RUN yum install -y openssh-server
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
 RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
 RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
+RUN yum upgrade -y
+RUN yum install -y git openssh cairo-devel mercurial ruby-devel wget redhat-lsb-core
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps

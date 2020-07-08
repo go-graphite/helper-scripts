@@ -1,0 +1,20 @@
+name: "carbonapi"
+arch: "amd64"
+platform: "linux"
+version: "${MY_APP_VERSION}"
+section: "default"
+priority: "extra"
+depends:
+- libcairo2
+maintainer: "Vladimir Smirnov <civil.over@gmail.com>"
+description: "carbonapi: replacement for graphite API server"
+homepage: "https://github.com/go-graphite/carbonapi"
+license: "BSD-2"
+files:
+   ./usr/bin/carbonapi: "/usr/bin/carbonapi"
+   ./usr/share/carbonapi/carbonapi.example.yaml: "/usr/share/carbonapi/carbonapi.example.yaml"
+config_files:
+   ./etc/sysconfig/carbonapi: "/etc/sysconfig/carbonapi"
+   ./etc/systemd/system/carbonapi.service: "/etc/systemd/system/carbonapi.service"
+scripts:
+    postinstall: /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/fpm/systemd-reload.sh

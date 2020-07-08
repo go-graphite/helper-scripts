@@ -1,17 +1,12 @@
-FROM centos:7
+FROM ubuntu:18.04
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
-USER root
 
 # Make sure the package repository is up to date.
 ARG CACHE_DATE=20200708
-RUN yum upgrade -y
-RUN yum install -y git openssh cairo-devel mercurial wget redhat-lsb-core openssh-server which
-
-RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
-
-RUN yum groupinstall -y 'Development Tools'
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get install -y git openssh-server libcairo2-dev mercurial build-essential lsb-release curl
+RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps
 RUN wget -q -O/tmp/go.tar.gz https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
@@ -24,7 +19,7 @@ RUN go get -u github.com/goreleaser/nfpm/cmd/nfpm
 RUN rm -rf /root/go/src
 
 ADD pack.sh /root
-ADD create_package_rpm.sh /root
+ADD create_package_deb.sh /root
 ADD nfpm.yaml /root
 
 # Standard SSH port
