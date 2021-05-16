@@ -16,9 +16,8 @@ files:
    ./usr/bin/carbonapi: "/usr/bin/carbonapi"
    ./usr/share/carbonapi/carbonapi.example.yaml: "/usr/share/carbonapi/carbonapi.example.yaml"
 config_files:
-   ./etc/sysconfig/carbonapi: "/etc/sysconfig/carbonapi"
+   ./etc/default/carbonapi: "/etc/default/carbonapi"
    ./etc/systemd/system/carbonapi.service: "/etc/systemd/system/carbonapi.service"
    /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/deb/carbonapi.logrotate: "/etc/logrotate.d/carbonapi"
-   /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/common/carbonapi.env: "/etc/default/carbonapi"
 scripts:
     postinstall: /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/fpm/systemd-reload.sh
