@@ -71,6 +71,7 @@ mkdir -p "${TMPDIR}"/etc/systemd/system/
 mkdir -p "${TMPDIR}"/etc/sysconfig/
 cp ./contrib/carbonapi/rhel/carbonapi.service "${TMPDIR}"/etc/systemd/system/
 cp ./contrib/carbonapi/common/carbonapi.env "${TMPDIR}"/etc/sysconfig/carbonapi
+chmod 0644 ./carbonapi/contrib/carbonapi/rhel/carbonapi.logrotate
 
 pushd "${TMPDIR}"
 /root/go/bin/nfpm -f /root/nfpm.yaml pkg --target "/root/carbonapi-${PKG_VERSION}.${ARCH}.rpm" || die "Can't create package!"
