@@ -3,7 +3,7 @@ MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 USER root
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20200708
+ARG CACHE_DATE=20210517
 RUN yum upgrade -y
 RUN yum install -y git openssh cairo-devel mercurial wget redhat-lsb-core openssh-server which
 
@@ -14,14 +14,16 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 
 # Install nfpm
 ENV PATH="${PATH}:/usr/local/go/bin"
-RUN go get -u github.com/goreleaser/nfpm/cmd/nfpm
+RUN curl -sfL https://install.goreleaser.com/github.com/goreleaser/nfpm.sh | sh
+RUN mkdir -p /root/go
 RUN rm -rf /root/go/src
+RUN nfpm -v
 
 ADD pack.sh /root
 ADD create_package_rpm.sh /root

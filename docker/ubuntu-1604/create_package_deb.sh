@@ -74,7 +74,7 @@ cp ./contrib/carbonapi/common/carbonapi.env "${TMPDIR}"/etc/default/carbonapi
 chmod 0644 ./carbonapi/contrib/carbonapi/deb/carbonapi.logrotate
 
 pushd "${TMPDIR}"
-/root/go/bin/nfpm -f /root/nfpm.yaml pkg --target "/root/carbonapi-${PKG_VERSION}.${ARCH}.deb" || die "Can't create package!"
+nfpm -f /root/nfpm.yaml pkg --target "/root/carbonapi-${PKG_VERSION}.${ARCH}.deb" || die "Can't create package!"
 #mv "carbonapi-${VERSION}-${RELEASE}.${ARCH}.rpm" /root/
 popd
 
