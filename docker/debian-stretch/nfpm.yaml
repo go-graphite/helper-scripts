@@ -17,4 +17,4 @@ config_files:
    ./etc/default/carbonapi: "/etc/default/carbonapi"
    ./etc/systemd/system/carbonapi.service: "/etc/systemd/system/carbonapi.service"
 scripts:
-    postinstall: /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/fpm/systemd-reload.sh
+    postinstall: /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/fpm/carbon-user-systemd-reload.sh

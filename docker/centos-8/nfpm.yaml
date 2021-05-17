@@ -18,4 +18,4 @@ config_files:
    ./etc/systemd/system/carbonapi.service: "/etc/systemd/system/carbonapi.service"
    /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/rhel/carbonapi.logrotate: "/etc/logrotate.d/carbonapi"
 scripts:
-    postinstall: /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/fpm/systemd-reload.sh
+    postinstall: /root/go/src/github.com/go-graphite/carbonapi/contrib/carbonapi/fpm/carbon-user-systemd-reload.sh
