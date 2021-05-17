@@ -69,9 +69,11 @@ make || die 1 "Can't build package"
 make DESTDIR="${TMPDIR}" install || die 1 "Can't install package"
 mkdir -p "${TMPDIR}"/etc/systemd/system/
 mkdir -p "${TMPDIR}"/etc/default/
+mkdir -p "${TMPDIR}"/etc/logrotate.d/
 cp ./contrib/carbonapi/deb/carbonapi.service "${TMPDIR}"/etc/systemd/system/
 cp ./contrib/carbonapi/common/carbonapi.env "${TMPDIR}"/etc/default/carbonapi
-chmod 0644 ./carbonapi/contrib/carbonapi/deb/carbonapi.logrotate
+cp ./contrib/carbonapi/deb/carbonapi.logrotate "${TMPDIR}"/etc/logrotate.d/carbonapi
+chmod 0644 "${TMPDIR}"/etc/logrotate.d/carbonapi
 
 pushd "${TMPDIR}"
 nfpm -f /root/nfpm.yaml pkg --target "/root/carbonapi-${PKG_VERSION}.${ARCH}.deb" || die "Can't create package!"
