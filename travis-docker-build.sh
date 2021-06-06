@@ -13,9 +13,9 @@ fi
 docker_build() {
     NAME="$(sed 's/://g;s/\.//g' <<< ${1})"
     echo "Building for ${NAME}"
-    $DOCKER pull civilus/gographite-build-${i}
+    $DOCKER pull ghcr.io/go-graphite/go-graphite-build-${i}
 
-    $DOCKER create --name ${NAME} civilus/gographite-build-${1}
+    $DOCKER create --name ${NAME} ghcr.io/go-graphite/go-graphite-build-${1}
     $DOCKER start ${NAME}
     if [[ ${LOCAL} != "true" ]]; then
         $DOCKER cp /home/travis/gopath/src ${NAME}:/root/go/src

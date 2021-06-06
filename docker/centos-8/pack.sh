@@ -27,7 +27,7 @@ pushd ~/go/src/github.com/go-graphite/${1}/
 make clean
 REPOS="autobuilds"
 
-git describe --abbrev=6 --dirty --always --tags | grep -q '^[0-9]\+\.[0-9]\+\(\.[0-9]\+\)\?$'
+git describe --abbrev=6 --dirty --always --tags | grep -q '^v[0-9]\+\.[0-9]\+\(\.[0-9]\+\)\?$' | cut -c 2-
 if [[ $? -eq 0 ]]; then
         REPOS="stable autobuilds"
 fi

@@ -15,7 +15,7 @@ VERSION=""
 RELEASE=""
 COMMIT=""
 ARCH=$(uname -m)
-VERSION_GIT=$(git describe --abbrev=6 --always --tags)
+VERSION_GIT=$(git describe --abbrev=6 --always --tags | cut -c 2-)
 PKG_VERSION=""
 case ${VERSION_GIT} in
     *-alpha*|*-beta*|*-rc*)
