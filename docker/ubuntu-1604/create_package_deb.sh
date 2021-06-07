@@ -42,6 +42,9 @@ case ${VERSION_GIT} in
         if [[ -z "${RELEASE}" ]] || [[ ${RELEASE} == 0 ]]; then
             RELEASE="1"
         fi
+        if [[ ${COMMIT} != "" ]]; then
+            RELEASE=$((RELEASE+1))
+        fi
         export MY_APP_VERSION="v${VERSION}-${RELEASE}"
         PKG_VERSION="${VERSION}-${RELEASE}"
         if [[ ! -z "${COMMIT}" ]]; then

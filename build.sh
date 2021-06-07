@@ -1,7 +1,7 @@
 #!/bin/bash
 OS="centos:7 centos:8 ubuntu:16.04 ubuntu:18.04 ubuntu:20.04 debian:stretch debian:buster debian:bullseye"
 if [[ "${DRY_RUN}" == "true" ]]; then
-    OS="ubuntu:18.04"
+    OS="ubuntu:20.04"
 fi
 
 if [[ -n "${SUDO}" ]]; then
@@ -11,22 +11,27 @@ else
 fi
 
 docker_build() {
+    set -e
+    set -x
     NAME="$(sed 's/://g;s/\.//g' <<< ${1})"
     echo "Building for ${NAME}"
-    $DOCKER pull ghcr.io/go-graphite/go-graphite-build-${i}
+    ${DOCKER} pull ghcr.io/go-graphite/go-graphite-build-${i}
 
-    $DOCKER create --name ${NAME} ghcr.io/go-graphite/go-graphite-build-${1}
-    $DOCKER start ${NAME}
+    ${DOCKER} create --name ${NAME} ghcr.io/go-graphite/go-graphite-build-${1}
+    ${DOCKER} start ${NAME}
+    ${DOCKER} exec ${NAME} '/usr/bin/env' 'mkdir' '-p' '/root/go/src/github.com/go-graphite'
     if [[ ${LOCAL} != "true" ]]; then
-        $DOCKER cp /home/travis/gopath/src ${NAME}:/root/go/src
+        ${DOCKER} cp ${GITHUB_WORKSPACE} ${NAME}:/root/go/src/github.com/go-graphite
     else
-        $DOCKER cp /root/go/src ${NAME}:/root/go/src
+        ${DOCKER} cp /root/go/src ${NAME}:/root/go/src
     fi
-    $DOCKER exec ${NAME} '/bin/bash' '-x' '/root/pack.sh' "${2}" || return 1
+    ${DOCKER} exec ${NAME} '/bin/bash' '-x' '/root/pack.sh' "${2}" || return 1
     mkdir -p _pkg
-    $DOCKER cp ${NAME}:/root/pkg ./_pkg/ || return 1
-    $DOCKER stop ${NAME}
-    $DOCKER rm ${NAME}
+    ${DOCKER} cp ${NAME}:/root/pkg ./_pkg/ || return 1
+    ${DOCKER} stop ${NAME}
+    ${DOCKER} rm ${NAME}
+    set +x
+    set +e
 }
 
 die() {
@@ -52,8 +57,9 @@ for i in ${OS}; do
     docker_build ${i} ${1} &
 done
 
-gem install package_cloud
+#gem install package_cloud
 wait
+
 pushd _pkg/pkg || die "Failed to 'pushd _pkg/pkg'"
 ls
 
