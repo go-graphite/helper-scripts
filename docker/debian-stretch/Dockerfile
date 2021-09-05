@@ -2,14 +2,14 @@ FROM debian:stretch
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20210517
+ARG CACHE_DATE=20210905
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install -y apt-utils wget curl git openssh-server libcairo2-dev mercurial build-essential lsb-release
 RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.17.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 

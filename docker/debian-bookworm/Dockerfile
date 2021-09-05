@@ -1,11 +1,11 @@
-FROM ubuntu:16.04
+FROM debian:bookworm
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
 ARG CACHE_DATE=20210905
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get install -y git openssh-server libcairo2-dev mercurial build-essential lsb-release curl
+RUN apt-get install -y wget curl apt-utils git openssh-server libcairo2-dev mercurial build-essential lsb-release
 RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps

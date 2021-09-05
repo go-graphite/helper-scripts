@@ -2,7 +2,7 @@ FROM centos:6
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20210515
+ARG CACHE_DATE=20210905
 RUN sed -i 's/^mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Base.repo
 RUN sed -i 's,#baseurl=http://mirror.centos.org/,baseurl=http://vault.centos.org/,g' etc/yum.repos.d/CentOS-Base.repo
 RUN yum upgrade -y
@@ -14,7 +14,7 @@ RUN yum -y install tar which git openssh mercurial wget redhat-lsb-core openssh-
 RUN yum -y install gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.17.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 
