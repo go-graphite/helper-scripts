@@ -1,7 +1,7 @@
 #!/bin/bash
-OS="centos:7 centos:8 ubuntu:16.04 ubuntu:18.04 ubuntu:20.04 debian:stretch debian:buster debian:bullseye"
+OS="centos:7 rockylinux:8 ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 debian:buster debian:bullseye debian:bookworm"
 if [[ "${DRY_RUN}" == "true" ]]; then
-    OS="ubuntu:20.04"
+    OS="ubuntu:22.04"
 fi
 
 if [[ -n "${SUDO}" ]]; then
