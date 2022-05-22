@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-OS="ubuntu:16.04 ubuntu:18.04 ubuntu:20.04 debian:stretch debian:buster debian:bullseye debian:bookworm centos:8 centos:7"
+OS="ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 debian:buster debian:bullseye debian:bookworm rockylinux:8 centos:7"
 SQUASH=false
 for i in ${OS}; do
 	folder=$(sed 's/:/-/g;s/\.//g' <<< ${i})

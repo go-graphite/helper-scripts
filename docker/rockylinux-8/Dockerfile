@@ -1,8 +1,8 @@
-FROM centos:8
+FROM rockylinux:8
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20210905
+ARG CACHE_DATE=20220522
 RUN yum upgrade -y
 RUN yum install -y openssh-server
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
@@ -14,15 +14,17 @@ RUN yum install -y git openssh cairo-devel mercurial ruby-devel wget redhat-lsb-
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.17.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.18.2.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
+RUN mkdir -p /root/go
+RUN rm -rf /root/go/src
+
 
 # Install nfpm
 ENV PATH="${PATH}:/usr/local/go/bin"
-RUN curl -sfL https://install.goreleaser.com/github.com/goreleaser/nfpm.sh | sh
-RUN mkdir -p /root/go
-RUN rm -rf /root/go/src
+RUN wget -q -O/tmp/nfpm.tar.gz https://github.com/goreleaser/nfpm/releases/download/v2.15.1/nfpm_2.15.1_Linux_x86_64.tar.gz
+RUN tar -xf /tmp/nfpm.tar.gz -C /usr/local/bin
 RUN nfpm -v
 
 ADD pack.sh /root

@@ -40,6 +40,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # Runs a set of commands using the runners shell
+      - name: Build ubuntu-22.04 image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: ./docker/ubuntu-2204
+          tags: ghcr.io/go-graphite/go-graphite-build-ubuntu:20.04
       - name: Build ubuntu-20.04 image
         uses: docker/build-push-action@v2
         with:
@@ -52,12 +58,12 @@ jobs:
           push: true
           context: ./docker/ubuntu-1804
           tags: ghcr.io/go-graphite/go-graphite-build-ubuntu:18.04
-      - name: Build ubuntu-16.04 image
+      - name: Build debian-bookworm image
         uses: docker/build-push-action@v2
         with:
           push: true
-          context: ./docker/ubuntu-1604
-          tags: ghcr.io/go-graphite/go-graphite-build-ubuntu:16.04
+          context: ./docker/debian-bookworm
+          tags: ghcr.io/go-graphite/go-graphite-build-debian:bookworm
       - name: Build debian-bullseye image
         uses: docker/build-push-action@v2
         with:
@@ -70,18 +76,12 @@ jobs:
           push: true
           context: ./docker/debian-buster
           tags: ghcr.io/go-graphite/go-graphite-build-debian:buster
-      - name: Build debian-stretch image
+      - name: Build rockylinux-8 image
         uses: docker/build-push-action@v2
         with:
           push: true
-          context: ./docker/debian-stretch
-          tags: ghcr.io/go-graphite/go-graphite-build-debian:stretch
-      - name: Build centos-8 image
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          context: ./docker/centos-8
-          tags: ghcr.io/go-graphite/go-graphite-build-centos:8
+          context: ./docker/rockylinux-8
+          tags: ghcr.io/go-graphite/go-graphite-build-rockylinux:8
       - name: Build debian-stretch image
         uses: docker/build-push-action@v2
         with:
