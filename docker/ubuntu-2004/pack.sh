@@ -10,7 +10,7 @@ LSB_R=$(lsb_release -s -r)
 LSB_C=$(lsb_release -s -c)
 VERSION=""
 PKG="deb"
-if [[ "${DISTRO}" == "centos" ]]; then
+if [[ "${DISTRO}" == "centos" ]] || [[ "${DISTRO}" == "rocky" ]]; then
         DISTRO="el"
         VERSION=$(cut -d'.' -f 1 <<< ${LSB_R})
         PKG="rpm"
@@ -23,7 +23,9 @@ else
         fi
 fi
 
-pushd ~/go/src/github.com/go-graphite/${1}/
+echo "Applying workaround for newer versions of git, until github actions are fixed"
+git config --global --add safe.directory ~/go/src/github.com/go-graphite/"${1}" ||:
+pushd ~/go/src/github.com/go-graphite/"${1}/"
 make clean
 REPOS="autobuilds"
 
@@ -35,11 +37,11 @@ git reset --hard
 rm -f *.rpm
 rm -f *.deb
 set -e
-/bin/bash -x /root/create_package_${PKG}.sh
+/bin/bash -x "/root/create_package_${PKG}.sh"
 set +e
 
 for r in ${REPOS}; do
-        mkdir -p /root/pkg/${DISTRO}/${VERSION}/${r}
-        cp /root/*.${PKG} /root/pkg/${DISTRO}/${VERSION}/${r}/
+        mkdir -p "/root/pkg/${DISTRO}/${VERSION}/${r}"
+        cp /root/*."${PKG}" "/root/pkg/${DISTRO}/${VERSION}/${r}/"
 done
 popd
