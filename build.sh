@@ -69,6 +69,9 @@ pushd _pkg/pkg || die "Failed to 'pushd _pkg/pkg'"
 ls
 
 for d in el debian ubuntu; do
+    if [[ ! -d ${d} ]]; then
+        continue
+    fi
     pushd ${d} || die "Failed to pushd to ${d}"
     echo "d=${d}"
     ls
