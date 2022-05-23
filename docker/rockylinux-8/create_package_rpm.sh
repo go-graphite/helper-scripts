@@ -10,6 +10,7 @@ die() {
 }
 
 pwd
+git config --global --add safe.directory /root/go/src/github.com/go-graphite/carbonapi ||:
 
 VERSION=""
 RELEASE=""
