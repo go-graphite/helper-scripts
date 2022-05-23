@@ -52,6 +52,11 @@ fi
 echo "Cleaning up old docker containers (if any)"
 for i in $(docker ps -a | awk '{print $1}' | grep -v CONT); do docker rm -f ${i}; done
 
+if [[ ! -z "${2}" ]]; then
+    OS="${2}"
+fi
+echo "Will build for ${OS}"
+
 mkdir -p _pkg/
 for i in ${OS}; do
     docker_build ${i} ${1} &
