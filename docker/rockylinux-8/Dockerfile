@@ -14,7 +14,7 @@ RUN yum install -y git openssh cairo-devel mercurial ruby-devel wget redhat-lsb-
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://golang.org/dl/go1.18.2.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.19.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go
