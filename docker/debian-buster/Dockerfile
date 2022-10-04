@@ -2,7 +2,7 @@ FROM debian:buster
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20220522
+ARG CACHE_DATE=20221004
 RUN apt-get update
 RUN apt-get install -y --allow-unauthenticated debian-archive-keyring
 RUN apt-get update
@@ -11,7 +11,7 @@ RUN apt-get install -y wget curl apt-utils git openssh-server libcairo2-dev merc
 RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.19.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go

@@ -1,4 +1,4 @@
-FROM rockylinux:8
+FROM rockylinux:9
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
@@ -10,7 +10,8 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
 RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
 RUN yum upgrade -y
-RUN yum install -y git openssh cairo-devel mercurial ruby-devel wget redhat-lsb-core
+RUN yum install -y git openssh cairo-devel wget
+# redhat-lsb-core
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps

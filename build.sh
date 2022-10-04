@@ -1,5 +1,5 @@
 #!/bin/bash
-OS="centos:7 rockylinux:8 ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 debian:buster debian:bullseye debian:bookworm"
+OS="centos:7 rockylinux:8 rockylinux:9 ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 debian:buster debian:bullseye debian:bookworm"
 if [[ "${DRY_RUN}" == "true" ]]; then
     OS="ubuntu:22.04"
 fi

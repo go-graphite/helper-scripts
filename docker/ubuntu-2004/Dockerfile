@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20220522
+ARG CACHE_DATE=20221004
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get -y upgrade
@@ -10,7 +10,7 @@ RUN apt-get install -y git openssh-server libcairo2-dev mercurial build-essentia
 RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.19.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.19.2.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go
