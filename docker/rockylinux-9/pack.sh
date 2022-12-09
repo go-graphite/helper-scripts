@@ -10,7 +10,7 @@ LSB_C=""
 VERSION=""
 
 type lsb_release &>/dev/null
-if [[ $? - ne 0 ]]; then
+if [[ $? -ne 0 ]]; then
 	source /etc/os-release
 	DISTRO="${ID}"
 	LSB_C="${VERSION_ID}"
