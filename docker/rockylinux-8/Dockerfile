@@ -2,7 +2,7 @@ FROM rockylinux:8
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20221209
+ARG CACHE_DATE=20230827
 RUN yum upgrade -y
 RUN yum install -y openssh-server
 RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
@@ -14,7 +14,7 @@ RUN yum install -y git openssh cairo-devel mercurial ruby-devel wget redhat-lsb-
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.19.4.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go
