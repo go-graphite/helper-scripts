@@ -3,7 +3,7 @@ MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 USER root
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20230827
+ARG CACHE_DATE=20240212
 RUN yum upgrade -y
 RUN yum install -y git openssh cairo-devel mercurial wget redhat-lsb-core openssh-server which
 
@@ -14,7 +14,7 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go
