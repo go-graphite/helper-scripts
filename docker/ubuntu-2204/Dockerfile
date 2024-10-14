@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20240212
+ARG CACHE_DATE=20241015
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get -y upgrade
@@ -10,7 +10,7 @@ RUN apt-get install -y git openssh-server libcairo2-dev mercurial build-essentia
 RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.23.2.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go

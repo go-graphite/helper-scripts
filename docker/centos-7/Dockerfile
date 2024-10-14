@@ -3,7 +3,10 @@ MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 USER root
 
 # Make sure the package repository is up to date.
-ARG CACHE_DATE=20240212
+ARG CACHE_DATE=20241015
+RUN sed -i 's/mirror.centos.org/vault.centos.org/g' /etc/yum.repos.d/CentOS-*.repo
+RUN sed -i 's/^#.*baseurl=http/baseurl=http/g' /etc/yum.repos.d/CentOS-*.repo
+RUN sed -i 's/^mirrorlist=http/#mirrorlist=http/g' /etc/yum.repos.d/CentOS-*.repo
 RUN yum upgrade -y
 RUN yum install -y git openssh cairo-devel mercurial wget redhat-lsb-core openssh-server which
 
@@ -14,7 +17,7 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 RUN yum groupinstall -y 'Development Tools'
 
 # Install Go and other deps
-RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
+RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.23.2.linux-amd64.tar.gz
 RUN tar -xf /tmp/go.tar.gz -C /usr/local/
 RUN rm -f /tmp/go.tar.gz
 RUN mkdir -p /root/go
