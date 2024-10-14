@@ -10,7 +10,7 @@ die() {
 }
 
 pwd
-git config --global --add safe.directory /root/go/src/github.com/go-graphite/carbonapi
+git config --global --add safe.directory /root/go/src/github.com/go-graphite/carbonapi ||:
 
 VERSION=""
 RELEASE=""
@@ -19,7 +19,7 @@ ARCH=$(uname -m)
 VERSION_GIT=$(git describe --abbrev=6 --always --tags | cut -c 2-)
 PKG_VERSION=""
 case ${VERSION_GIT} in
-    *-alpha*|*-beta*|*-rc*)
+    *-alpha*|*-beta*|*-rc*|-patch*)
         VERSION=$(cut -d'-' -f 1 <<< ${VERSION_GIT})
         RELEASE=$(cut -d'-' -f 2 <<< ${VERSION_GIT})
         RELEASE2=$(cut -d'-' -f 3 <<< ${VERSION_GIT})

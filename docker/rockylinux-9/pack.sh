@@ -3,25 +3,11 @@ TYPE="${1}"
 export PATH="/root/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH}"
 export GOPATH="/root/go"
 [[ -f /etc/extra_opts ]] && . /etc/extra_opts
-
-DISTRO=""
-LSB_R=""
-LSB_C=""
-VERSION=""
-
-type lsb_release &>/dev/null
-if [[ $? -ne 0 ]]; then
-	source /etc/os-release
-	DISTRO="${ID}"
-	LSB_C="${VERSION_ID}"
-	LSB_R="${VERSION_ID}"
-else
-	DISTRO=$(lsb_release -s -i | tr '[:upper:]' '[:lower:]')
-	# Debian uses 'lsb_release -c' as a repo name
-	# CentOS and Ubuntu uses 'lsb_release -r'
-	LSB_R=$(lsb_release -s -r)
-	LSB_C=$(lsb_release -s -c)
-fi
+DISTRO=$(lsb_release -s -i | tr '[:upper:]' '[:lower:]')
+# Debian uses 'lsb_release -c' as a repo name
+# CentOS and Ubuntu uses 'lsb_release -r'
+LSB_R=$(lsb_release -s -r)
+LSB_C=$(lsb_release -s -c)
 VERSION=""
 PKG="deb"
 if [[ "${DISTRO}" == "centos" ]] || [[ "${DISTRO}" == "rocky" ]]; then
@@ -43,7 +29,7 @@ pushd ~/go/src/github.com/go-graphite/"${1}/"
 make clean
 REPOS="autobuilds"
 
-git describe --abbrev=6 --dirty --always --tags | grep -q '^v[0-9]\+\.[0-9]\+\(\.[0-9]\+\)\?$'
+git describe --abbrev=6 --dirty --always --tags | grep -q '^v[0-9]\+\.[0-9]\+\(\.[0-9]\+\(\-patch[0-9]\+)\?\)\?$'
 if [[ $? -eq 0 ]]; then
         REPOS="stable autobuilds"
 fi
