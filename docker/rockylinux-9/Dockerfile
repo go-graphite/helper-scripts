@@ -11,8 +11,10 @@ RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
 RUN yum upgrade -y
 RUN yum install -y git openssh cairo-devel wget
-# redhat-lsb-core
 RUN yum groupinstall -y 'Development Tools'
+# lsb_release is in EPEL
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+RUN dnf install -y lsb_release
 
 # Install Go and other deps
 RUN wget -q -O/tmp/go.tar.gz https://go.dev/dl/go1.23.2.linux-amd64.tar.gz
