@@ -1,13 +1,12 @@
-FROM debian:buster
+FROM ubuntu:24.04
 MAINTAINER Vladimir Smirnov <civil.over@gmail.com>
 
 # Make sure the package repository is up to date.
 ARG CACHE_DATE=20241015
-RUN apt-get update
-RUN apt-get install -y --allow-unauthenticated debian-archive-keyring
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get install -y wget curl apt-utils git openssh-server libcairo2-dev mercurial build-essential lsb-release
+RUN apt-get install -y git openssh-server libcairo2-dev mercurial build-essential lsb-release curl
 RUN mkdir -p /var/run/sshd
 
 # Install Go and other deps

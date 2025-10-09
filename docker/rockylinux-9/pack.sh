@@ -10,7 +10,7 @@ LSB_R=$(lsb_release -s -r)
 LSB_C=$(lsb_release -s -c)
 VERSION=""
 PKG="deb"
-if [[ "${DISTRO}" == "centos" ]] || [[ "${DISTRO}" == "rocky" ]]; then
+if [[ "${DISTRO}" == "centos" ]] || [[ "${DISTRO}" == "rockylinux" ]]; then
         DISTRO="el"
         VERSION=$(cut -d'.' -f 1 <<< ${LSB_R})
         PKG="rpm"
